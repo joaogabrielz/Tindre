@@ -1,0 +1,38 @@
+
+.avatar-prev {
+  width: 80px;
+  height: 80px;
+  background-color: #FAFAFA;
+}
+
+.avatar-content {
+  position: relative;
+  max-width: 80px;
+}
+
+.avatar-content > img {
+}
+
+.floating-cam {
+  background-color: #E94057;
+  position: absolute;
+  top: 55px;
+  left: 55px;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+}
+
+#avatar {
+  width: 0px;
+  height: 0px;
+  z-index: -10;
+  position: absolute;
+  color: transparent;
+  background-color: transparent;
+  display: none;
+}

@@ -1,0 +1,162 @@
+.container {
+  padding: 0;
+}
+
+
+.carousel-indicators [data-bs-target] {
+  width: 10px;
+  border: 0;
+  height: 10px;
+  background: #000000;
+  opacity: .1;
+}
+
+.carousel-indicators {
+  bottom: -40px;
+}
+
+.carousel-indicators .active {
+  background-color: #E94057;
+  opacity: 1;
+}
+
+.carousel-item > img {
+  width: 65%;
+  display: block;
+  margin: 0 auto;
+}
+
+.carousel-item > img {
+  width: 65%;
+  display: block;
+  margin: 0 auto;
+}
+
+
+
+
+.carousel-item.active{
+  z-index: -10;
+  position: relative;
+}
+
+.carousel-item {
+  opacity: 0;
+
+  animation: fadeIn 0.5s ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.side-images > img {
+  width: 55%;
+}
+
+.side-images { 
+  position: absolute;
+  width: 100%;
+  opacity: 1;
+
+}
+
+
+
+.side-images-right {
+  top: 5%;
+  z-index: -10;
+  left: -44%;
+
+  opacity: 1;
+  animation: fadeInRight 0.5s ease-out;
+}
+
+.side-images-left {
+  top: 5%;
+  z-index: -10;
+  right: -89%;
+
+  opacity: 1;
+  animation: fadeInLeft 0.5s ease-out;
+}
+
+
+
+@keyframes fadeInRight {
+  0% {
+    opacity: 0%;
+    transform: translateX(100%);
+  }
+  
+  25% {
+  opacity: 30%;
+  transform: translateX(75%);
+ }
+
+ 50% {
+  opacity: 30%;
+  transform: translateX(50%);
+ }
+
+ 75% {
+  opacity: 30%;
+  transform: translateX(25%);
+ }
+
+  100% {
+    opacity: 100%;
+
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0%;
+    transform: translateX(-100%);
+  }
+  
+  25% {
+  opacity: 30%;
+  transform: translateX(-75%);
+ }
+
+ 50% {
+  opacity: 30%;
+  transform: translateX(-50%);
+ }
+
+ 75% {
+  opacity: 30%;
+  transform: translateX(-25%);
+ }
+
+  100% {
+    opacity: 100%;
+
+    transform: translateX(0);
+  }
+}
+
+
+
+.carousel-caption {
+  position: static;
+  margin-top: 40px;
+}
+
+.button-create {
+  width: 295px;
+  height: 56px;
+  border-radius: 15px;
+}
