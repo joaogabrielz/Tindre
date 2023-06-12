@@ -86,7 +86,7 @@ router.put("/me", authMiddleWare, upload.single("avatar"), async (req, res) => {
       userAuth.profile.lastname = lastname;
     }
     if (birthday) {
-      const formatedDate = new Date(birthday);
+      const formatedDate = new Date(birthday).toISOString();
       userAuth.profile.birthday = formatedDate;
     }
     if (req?.file && req?.file?.path) {

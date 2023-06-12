@@ -148,15 +148,8 @@
   }
 }
 
-
-
 .carousel-caption {
   position: static;
   margin-top: 40px;
 }
 
-.button-create {
-  width: 295px;
-  height: 56px;
-  border-radius: 15px;
-}

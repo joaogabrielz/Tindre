@@ -82,15 +82,15 @@ class SignUpInController {
     const password = document.querySelector("#floatingPassword");
 
     if (!this.validateEmail(email.value)) {
-      this.addInValidClassesEmail(email);
+      this.addInvalidClassesFrom(email);
     } else {
-      this.addValidClassesEmail(email);
+      this.addValidClassesFrom(email);
     }
 
     if (!this.validatePassword(password.value)) {
-      this.addInvalidClassesPassword(password);
+      this.addInvalidClassesFrom(password);
     } else {
-      this.addValidClassesPassword(password);
+      this.addValidClassesFrom(password);
     }
 
     if (
@@ -102,27 +102,15 @@ class SignUpInController {
     return false;
   }
 
-  addInvalidClassesPassword(password) {
-    if (!password.classList.contains("is-invalid")) {
-      password.classList.add("is-invalid");
+  addInvalidClassesFrom(inputHtml) {
+    if (!inputHtml.classList.contains("is-invalid")) {
+      inputHtml.classList.add("is-invalid");
     }
   }
 
-  addValidClassesPassword(password) {
-    if (password.classList.contains("is-invalid")) {
-      password.classList.remove("is-invalid");
-    }
-  }
-
-  addInValidClassesEmail(email) {
-    if (!email.classList.contains("is-invalid")) {
-      email.classList.add("is-invalid");
-    }
-  }
-
-  addValidClassesEmail(email) {
-    if (email.classList.contains("is-invalid")) {
-      email.classList.remove("is-invalid");
+  addValidClassesFrom(inputHtml) {
+    if (inputHtml.classList.contains("is-invalid")) {
+      inputHtml.classList.remove("is-invalid");
     }
   }
 

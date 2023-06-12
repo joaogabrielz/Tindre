@@ -1,0 +1,48 @@
+ .button-gender {
+  color: #000000;
+  background-color: #FFFFFF;
+  border: 1px solid #E8E6EA;
+  transition: 0.5s;
+}
+
+.button-gender:hover {
+  color: #FFFFFF;
+  background-color: #e94057;
+  font-weight: 700;
+  transition: 0.5s;
+} 
+
+.button-gender:focus {
+  color: #FFFFFF;
+  background-color: #e94057;
+  font-weight: 700;
+} 
+
+
+.group-gender {
+  position: relative;
+}
+
+.group-gender > svg {
+  position: absolute;
+  right: 5%;
+  top: 39%;
+}
+
+.group-gender-another {
+  position: relative;
+}
+
+.group-gender-another > svg {
+  position: absolute;
+  right: 7%;
+  top: 39%;
+}
+
+.icon-gender-svg:hover path {
+  stroke: white;
+}
+
+.icon-gender-svg::selection path {
+  stroke: white;
+}

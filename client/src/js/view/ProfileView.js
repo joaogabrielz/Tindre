@@ -54,7 +54,7 @@ class ProfileView {
         ? `
     <button
     id="btnConfirmProfile"
-    class="btn main-color-bg white-color-text fw-bold button-create w-100 mt-3r"
+    class="btn main-color-bg white-color-text fw-bold button-create mt-3r btn-bot"
     type="button"
   >
     Confirm

@@ -13,6 +13,14 @@ class Router {
         controller: new ProfileController(),
         path: "/profile",
       },
+      iam: {
+        controller: new IamController(),
+        path: "/iam",
+      },
+      interests: {
+        controller: new InterestsController(),
+        path: "/interests",
+      },
     };
 
   }
@@ -25,8 +33,16 @@ class Router {
     this.goTo(this.routes.signUpIn, bool);
   }
 
-  goToProfile(bool) {
-    this.goTo(this.routes.profile, bool);
+  goToProfile() {
+    this.goTo(this.routes.profile);
+  }
+
+  goToIam() {
+    this.goTo(this.routes.iam);
+  }
+
+  goToInterests() {
+    this.goTo(this.routes.interests);
   }
 
 
