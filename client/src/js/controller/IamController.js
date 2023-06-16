@@ -9,6 +9,10 @@ class IamController {
     this.selectedGender = selectedGender;
   }
 
+  set setShowingMessage(bool) {
+    this.showingMessage = bool;
+  }
+
   init() {
     this.setContainer = document.querySelector("#container");
     let view = new IamView().template();
@@ -23,9 +27,13 @@ class IamController {
       .forEach((btn) =>
         btn.addEventListener("click", (e) => this.chooseGender(e.target))
       );
-    document.querySelector("#btnContinueIam").addEventListener("click", () => {
-      this.continue();
-    });
+    if (document.querySelector("#btnContinueIam")) {
+      document
+        .querySelector("#btnContinueIam")
+        .addEventListener("click", () => {
+          this.continue();
+        });
+    }
   }
 
   chooseGender(target) {
@@ -37,10 +45,56 @@ class IamController {
     this.bind();
   }
 
-  continue() {
-    // fetch??
+  showLoading(gender, showloading = false) {
+    let componentLoading = null;
+    if (showloading) {
+      componentLoading = new LoadingContent().template();
+    }
+    let iamModel = new Iam(gender, true);
+    let view = new IamView(iamModel, componentLoading).template();
+
+    this.container.innerHTML = view;
+    this.bind();
+  }
+
+  showError() {
+    let boxAlert = document.querySelector("#alert");
+    boxAlert.innerHTML = "";
+    boxAlert.innerHTML = new ErrorBox(
+      "Ocorreu ao salvar perfil!"
+    ).templateError();
+  }
+
+  async continue() {
     if (this.selectedGender) {
-      new Router().goToInterests();
+      const gender = this.selectedGender;
+
+      let formData = new FormData();
+      formData.append("gender", gender);
+      this.showLoading(gender, true);
+
+      try {
+        let response = await fetch("http://localhost:3000/users/me", {
+          body: formData,
+          headers: {
+            token: sessionStorage.getItem("token"),
+          },
+          method: "PUT",
+        });
+        let data = await response.json();
+        if (data && data?.error) {
+          this.showWarning(data.error);
+          return;
+        }
+        new Router().goToInterests();
+        return;
+      } catch (error) {
+        console.error(error);
+        this.setShowingMessage = true;
+      }
+
+      this.showLoading(gender);
+      this.showError();
     }
   }
 }

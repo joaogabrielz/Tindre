@@ -26,7 +26,8 @@ router.post("/sign-up", async (req, res) => {
       birthday: new Date(),
       profile_pic: "",
       interests: [],
-    },
+      gender: ""
+    }
   });
 
   const token = jwt.sign(
@@ -37,7 +38,7 @@ router.post("/sign-up", async (req, res) => {
     secret
   );
 
-  // console.log(user); //
+  // console.log(user); // erase
 
   res.json({ token: token });
 });
@@ -58,7 +59,7 @@ router.post("/sign-in", async (req, res) => {
       secret
     );
 
-   // console.log(userLoggedIn); //
+   // console.log(userLoggedIn); // erase
 
     return res.send({ token: token });
   }
@@ -72,11 +73,11 @@ router.put("/me", authMiddleWare, upload.single("avatar"), async (req, res) => {
 
   let userAuth = req.userLoggedIn;
 
-    let { firstname, lastname, birthday, interests } =
+    let { firstname, lastname, birthday, gender, interests } =
       req.body;
 
-    if(!firstname && !lastname && !birthday && !interests){
-      res.json({ error: "Faltando credenciais!" });
+    if(!firstname && !lastname && !birthday && !gender && !interests){
+      res.json({ error: "Missing credentials!" });
     }
   
     if (firstname) {
@@ -92,25 +93,28 @@ router.put("/me", authMiddleWare, upload.single("avatar"), async (req, res) => {
     if (req?.file && req?.file?.path) {
       userAuth.profile.profile_pic =  `http://localhost:3000/${req.file.path}`;
     }
+    if (gender) {
+      userAuth.profile.gender = gender;
+    }
     if (interests) {
       userAuth.profile.interests = interests;
     }
   
     await userAuth.save();
  
-    res.json({ data: userAuth.profile });
-    //res.json({ data: "Perfil atualizado!" }); 
+    //res.json({ data: userAuth }); // erase
+    res.json({ data: "Updated profile!" }); 
 
 });
 
-router.post("", authMiddleWare, async (req, res) => {
+router.get("", authMiddleWare, async (req, res) => {
   const users = await User.find({
-    _id: { $ne: userLoggedInId },
+    _id: { $ne: req.userLoggedIn },
   });
 
   //const withoutLoggedUser = users.filter(user => user._id !== req.userLoggedIn._id);
 
-  res.json({ users: users });
+  res.json({ users: users }); // ver quais dados deve realmente devolver dps ta devolvendo td dos usuarios, menos o nao logado..
 });
 
 module.exports = router;

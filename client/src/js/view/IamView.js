@@ -1,10 +1,9 @@
 class IamView {
-
-  constructor(iam){
+  constructor(iam, componentLoading = null) {
     let items = [
-     {
-      dataset: "Man",
-      content:  `
+      {
+        dataset: "Man",
+        content: `
       <div class="d-flex justify-content-between group-gender">
           <button
           id=""
@@ -20,7 +19,7 @@ class IamView {
             </svg>       
         </div>
       `,
-      contentSelected: `
+        contentSelected: `
       <div class="d-flex justify-content-between group-gender">
           <button
           id=""
@@ -35,11 +34,11 @@ class IamView {
           </svg>
           
         </div>
-      `
-     },
-     {
-      dataset: "Woman",
-      content:  `
+      `,
+      },
+      {
+        dataset: "Woman",
+        content: `
       <div class="d-flex justify-content-between group-gender">
           <button
           id=""
@@ -55,7 +54,7 @@ class IamView {
             </svg>       
         </div>
       `,
-      contentSelected: `
+        contentSelected: `
       <div class="d-flex justify-content-between group-gender">
           <button
           id=""
@@ -70,11 +69,11 @@ class IamView {
           </svg>
           
         </div>
-      `
-     },
-     {
-      dataset: "Other",
-      content:  `
+      `,
+      },
+      {
+        dataset: "Other",
+        content: `
       <div class="d-flex justify-content-between group-gender-another">
           <button
           id=""
@@ -90,7 +89,7 @@ class IamView {
      
         </div>
       `,
-      contentSelected: `
+        contentSelected: `
       <div class="d-flex justify-content-between group-gender-another">
       <button
       id=""
@@ -105,13 +104,13 @@ class IamView {
         <path fill-rule="evenodd" clip-rule="evenodd" d="M0.327452 0.410704C0.652889 0.0852667 1.18053 0.0852667 1.50596 0.410704L6.50596 5.4107C6.8314 5.73614 6.8314 6.26378 6.50596 6.58922L1.50596 11.5892C1.18053 11.9147 0.652889 11.9147 0.327452 11.5892C0.00201477 11.2638 0.00201477 10.7361 0.327452 10.4107L4.7382 5.99996L0.327452 1.58922C0.00201477 1.26378 0.00201477 0.736141 0.327452 0.410704Z" fill="white"/>
         </svg>
     </div>
-      `
-     }
+      `,
+      },
     ];
     this.items = items;
     this.iam = iam;
+    this.componentLoading = componentLoading;
   }
-
 
   template() {
     return `
@@ -131,24 +130,30 @@ class IamView {
     <h1 class="fw-bold black-color-text mt-4">I am a</h1>
     
       <div class="boxGender d-flex flex-column gap-3 mt-4r w-100">
-       ${this.items.map((item) => {
-        if(this.iam){
-          if(this.iam.selectedItem == item.dataset){
-            return this.iam.active ? item.contentSelected : item.content
-          }
-        }
-        return item.content;
-       }).join('')} 
+       ${this.items
+         .map((item) => {
+           if (this.iam) {
+             if (this.iam.selectedItem == item.dataset) {
+               return this.iam.active ? item.contentSelected : item.content;
+             }
+           }
+           return item.content;
+         })
+         .join("")} 
       </div>
                 
- 
-    <button
+  ${
+    !this.componentLoading
+      ? `<button
     id="btnContinueIam"
     class="btn main-color-bg white-color-text fw-bold button-create mt-3r btn-bot"
     type="button"
   >
     Continue
-  </button>
+  </button>`
+      : this.componentLoading
+  }
+    
    
 </setion>
     `;
