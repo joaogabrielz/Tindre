@@ -21,9 +21,8 @@ class DiscoverController {
     this.setContainer = document.querySelector("#container");
     let view = new DiscoverView().templateNoUsers();
     this.container.innerHTML = view;
-    this.setRandomUserIndex = -1;
+    this.setRandomUserIndex = 0;
     this.fetchUsers();
-    this.showBorderCurrentMenu();
     this.bind();
   }
 
@@ -31,7 +30,7 @@ class DiscoverController {
     this.timer = setInterval(() => {
       this.fetchUsers();
       this.stopTimerFetchUsers();
-    }, 60 * 1500);
+    }, 60 * 1000); // 1500
   }
 
   stopTimerFetchUsers() {
@@ -59,8 +58,16 @@ class DiscoverController {
       document.querySelector(".box-match").addEventListener("click", () => {
         this.unShowNotificationMatch();
         this.unShowBorderCurrentMenu();
-        //this.goToMatches() new router gotomatches..;
+        this.stopTimerFetchUsers();
+        new Router().goToMatches();
       });
+    }
+    if (document.querySelector(".box-profile-op")) {
+      document
+        .querySelector(".box-profile-op")
+        .addEventListener("click", () => {
+          this.showMessage();
+        });
     }
   }
 
@@ -119,7 +126,6 @@ class DiscoverController {
   }
 
   async verifyMatches() {
-    //this.matches
     try {
       let response = await fetch(`http://localhost:3000/users/me/matches`, {
         headers: {
@@ -154,16 +160,24 @@ class DiscoverController {
     }
   }
 
-  showBorderCurrentMenu(){
-    if(!document.querySelector('.box-discover').classList.contains('active')){
-      document.querySelector('.box-discover').classList.add('active');
+  showBorderCurrentMenu() {
+    if (!document.querySelector(".box-discover").classList.contains("active")) {
+      document.querySelector(".box-discover").classList.add("active");
+      document.querySelector(".box-discover").classList.add("colorizeSvgClick");
     }
   }
 
-  unShowBorderCurrentMenu(){
-    if(document.querySelector('.box-discover').classList.contains('active')){
-      document.querySelector('.box-discover').classList.remove('active');
+  unShowBorderCurrentMenu() {
+    if (document.querySelector(".box-discover").classList.contains("active")) {
+      document.querySelector(".box-discover").classList.remove("active");
+      document.querySelector(".box-discover").classList.remove("colorizeSvgClick");
     }
+  }
+
+  showMessage() {
+    let boxAlert = document.querySelector("#alert");
+    boxAlert.innerHTML = "";
+    boxAlert.innerHTML = new ErrorBox("Modulo em contrução").template();
   }
 
   showWarning(msg) {
@@ -183,8 +197,10 @@ class DiscoverController {
   }
 
   showLoading() {
-    document.querySelector(".box-card-actions-view").innerHTML =
-      new LoadingContent().template();
+    if (document.querySelector(".box-card-actions-view")) {
+      document.querySelector(".box-card-actions-view").innerHTML =
+        new LoadingContent().template();
+    }
   }
 
   async fetchUsers() {
@@ -207,6 +223,9 @@ class DiscoverController {
       if (data && !data?.users?.length) {
         const view = new DiscoverView().templateNoUsers();
         this.container.innerHTML = view;
+        this.bind();
+        this.showBorderCurrentMenu();
+        this.verifyMatches();
         return;
       }
 
@@ -227,18 +246,21 @@ class DiscoverController {
   }
 
   renderUser() {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * this.users.length);
-    } while (newIndex === this.randomIndex);
+    if (this.users.length > 1) {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * this.users.length);
+      } while (newIndex === this.randomIndex);
+      console.log(newIndex);
+      this.randomIndex = newIndex;
+    }
 
-    this.randomIndex = newIndex;
     const nextRandomUser = this.users[this.randomIndex];
-
     const birthday = new Date(nextRandomUser.profile.birthday);
     const age = this.getAge(birthday);
     let view = new DiscoverView(nextRandomUser, age).template();
     this.container.innerHTML = view;
     this.bind();
+    this.showBorderCurrentMenu();
   }
 }

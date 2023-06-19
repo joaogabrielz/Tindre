@@ -25,6 +25,10 @@ class Router {
         controller: new DiscoverController(),
         path: "/discover",
       },
+      matches: {
+        controller: new MatchesController(),
+        path: "/matches",
+      }
     };
 
   }
@@ -51,6 +55,10 @@ class Router {
 
   goToDiscover() {
     this.goTo(this.routes.discover);
+  }
+
+  goToMatches() {
+    this.goTo(this.routes.matches);
   }
 
   goTo(route, bool = false) {

@@ -65,6 +65,10 @@ fieldset {
     color: #323755;
 }
 
+.pt-4r {
+  padding-top: 4rem;
+}
+
 .pt-3r {
   padding-top: 3rem;
 }
@@ -72,6 +76,11 @@ fieldset {
 .pb-3r {
     padding-bottom: 3rem;
 }
+
+.pb-4r {
+  padding-bottom: 4rem;
+}
+
 
 .mt-3r {
   margin-top: 3rem;
@@ -159,4 +168,13 @@ fieldset {
 
 .btn-skip.disabled {
   opacity: 50%;
+}
+
+.colorizeSvgClick svg path{
+  fill: #E94057;
+}
+
+.colorizeSvgClick svg rect{
+  fill: #E94057;
+  stroke: #E94057;
 }

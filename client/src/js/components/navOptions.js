@@ -16,7 +16,7 @@ class navOptions {
           width="13"
           height="18"
           rx="2"
-          fill="#E94057"
+          fill="#ADAFBB"
           stroke="#F3F3F3"
         />
         <rect
@@ -26,7 +26,7 @@ class navOptions {
           height="18"
           rx="2"
           transform="rotate(-15 0.391632 3.48901)"
-          fill="#E94057"
+          fill="#ADAFBB"
           stroke="#F3F3F3"
         />
       </svg>

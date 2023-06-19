@@ -25,7 +25,7 @@ router.post("/sign-up", async (req, res) => {
       profile: {
         firstname: "",
         lastname: "",
-        birthday: new Date(),
+        birthday: "",
         profile_pic: "",
         interests: [],
         gender: "",
