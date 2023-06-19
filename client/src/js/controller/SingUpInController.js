@@ -121,7 +121,7 @@ class SignUpInController {
   }
 
   validatePassword(password) {
-    const regex = /^.{6,}$/;
+    const regex = /^.{5,}$/;
     return regex.test(password);
   }
 
@@ -171,7 +171,8 @@ class SignUpInController {
         }
         if (data && data?.token) {
           sessionStorage.setItem("token", data.token);
-          new Router().goToProfile();
+
+          this.verifyUserProfileData();          
           return;
         }
       } catch (error) {
@@ -182,6 +183,30 @@ class SignUpInController {
       this.showLoading(email, password);
       this.showError();
     }
+  }
+
+  async verifyUserProfileData(){
+
+    try {
+      let response = await fetch("http://localhost:3000/users/me", {
+        headers: {
+          token: sessionStorage.getItem("token"),
+        },
+        method: "GET",
+        });
+        let data = await response.json();
+        if (data && data?.user) {
+          if(!data.user.profile?.firstname || !data.user.profile?.lastname){
+            new Router().goToProfile();
+          }
+          else{
+            new Router().goToDiscover();
+          }
+        }
+    } 
+    catch (error) {
+      console.error(error);
+    } 
   }
 
   showError(msg) {

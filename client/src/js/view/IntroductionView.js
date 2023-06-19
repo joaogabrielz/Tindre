@@ -1,7 +1,7 @@
 class IntroductionView {
   template() {
     return `
-    <div id="carouselExampleCaptions" class="carousel slide pt-3r" data-bs-ride="carousel">
+    <div id="carouselExampleCaptions" class="carousel slide pt-3r carousel-introduction" data-bs-ride="carousel">
 
         <div class="carousel-indicators">
           <button

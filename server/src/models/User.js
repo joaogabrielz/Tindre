@@ -18,26 +18,24 @@ const userSchema = new Schema({
     gender: String,
     interests: Array,
   },
-  matches: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-  },
-  deslikes: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-  },
-
-  // matches: {
-  //     type: [Schema.Types.ObjectId],
-  //     default: []
-  // }, // other table
-
-  // deslikes: {
-
-  // } other table
+  matches: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Match",
+    },
+  ],
+  deslikes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Deslike",
+    },
+  ],
 });
 
 userSchema.pre("save", function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
   let hashDigest = sha256(this.password);
   this.password = Base64.stringify(hashDigest);
   next();

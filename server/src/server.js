@@ -7,7 +7,9 @@ const cors = require("cors")
 const PORT = 3000;
 const LINK_URL = "localhost";
 
-const userRouter = require("./routes/User.routes");
+const userRouter = require("./routes/Users.routes");
+//const matchRouter = require("./routes/Matches.routes");
+const authMiddleWare = require("../src/middlewares/auth.middleware");
 
 const setup = async () => {
     try {
@@ -22,7 +24,7 @@ const setup = async () => {
     
         
         app.use("/users", userRouter);
-        // app.use("/users/:id/posts", authMiddleWare, userPostRouter);
+        //app.use("/users/:id/match", authMiddleWare, matchRouter);
         // app.use("/posts", postRouter);
 
 

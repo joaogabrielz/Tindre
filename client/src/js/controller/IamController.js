@@ -65,9 +65,17 @@ class IamController {
     ).templateError();
   }
 
+  showWarning(msg) {
+    let boxAlert = document.querySelector("#alert");
+    boxAlert.innerHTML = "";
+    boxAlert.innerHTML = new ErrorBox(
+      msg || "Ops algo deu errado"
+    ).templateWarning();
+  }
+
   async continue() {
     if (this.selectedGender) {
-      const gender = this.selectedGender;
+      const gender = this.selectedGender.toLowerCase();
 
       let formData = new FormData();
       formData.append("gender", gender);

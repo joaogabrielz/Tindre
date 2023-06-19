@@ -1,4 +1,4 @@
-class ProfileController {
+class ProfileDetailsController {
   constructor() {}
 
   set setContainer(container) {
@@ -19,7 +19,7 @@ class ProfileController {
 
   init() {
     this.setContainer = document.querySelector("#container");
-    let view = new ProfileView().template();
+    let view = new ProfileDetailsView().template();
     this.container.innerHTML = view;
 
     this.bind();
@@ -96,7 +96,7 @@ class ProfileController {
     }
     let profileModel = new Profile(firstname, lastname, birthday, avatar);
 
-    const view = new ProfileView(profileModel, componentLoading).template();
+    const view = new ProfileDetailsView(profileModel, componentLoading).template();
 
     this.container.innerHTML = view;
     this.bind();

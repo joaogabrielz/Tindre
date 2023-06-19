@@ -10,7 +10,7 @@ class Router {
         path: "/signUpIn",
       },
       profile: {
-        controller: new ProfileController(),
+        controller: new ProfileDetailsController(),
         path: "/profile",
       },
       iam: {
@@ -20,6 +20,10 @@ class Router {
       interests: {
         controller: new InterestsController(),
         path: "/interests",
+      },
+      discover: {
+        controller: new DiscoverController(),
+        path: "/discover",
       },
     };
 
@@ -45,6 +49,9 @@ class Router {
     this.goTo(this.routes.interests);
   }
 
+  goToDiscover() {
+    this.goTo(this.routes.discover);
+  }
 
   goTo(route, bool = false) {
     route.controller.init(bool);   

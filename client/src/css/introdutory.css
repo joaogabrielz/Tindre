@@ -1,4 +1,4 @@
-.container {
+.carousel-introduction .container {
   padding: 0;
 }
 
@@ -11,37 +11,29 @@
   opacity: .1;
 }
 
-.carousel-indicators {
+.carousel-introduction .carousel-indicators {
   bottom: -40px;
 }
 
-.carousel-indicators .active {
+.carousel-introduction .carousel-indicators .active {
   background-color: #E94057;
   opacity: 1;
 }
 
-.carousel-item > img {
-  width: 65%;
-  display: block;
-  margin: 0 auto;
-}
-
-.carousel-item > img {
+.carousel-introduction .carousel-item > img {
   width: 65%;
   display: block;
   margin: 0 auto;
 }
 
 
-
-
-.carousel-item.active{
+.carousel-introduction .carousel-item.active{
   z-index: -10;
   position: relative;
   overflow: hidden;
 }
 
-.carousel-item {
+.carousel-introduction .carousel-item {
   opacity: 0;
   animation: fadeIn 0.5s ease-out;
   animation-fill-mode: forwards;
@@ -58,11 +50,11 @@
 }
 
 
-.side-images > img {
+.carousel-introduction .side-images > img {
   width: 55%;
 }
 
-.side-images { 
+.carousel-introduction .side-images { 
   position: absolute;
   width: 100%;
   opacity: 1;
@@ -71,7 +63,7 @@
 
 
 
-.side-images-right {
+.carousel-introduction .side-images-right {
   top: 5%;
   z-index: -10;
   left: -44%;
@@ -80,7 +72,7 @@
   animation: fadeInRight 0.5s ease-out;
 }
 
-.side-images-left {
+.carousel-introduction .side-images-left {
   top: 5%;
   z-index: -10;
   right: -89%;
@@ -119,7 +111,7 @@
   }
 }
 
-.carousel-caption {
+.carousel-introduction .carousel-caption {
   position: static;
   margin-top: 40px;
 }

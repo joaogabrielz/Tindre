@@ -4,6 +4,14 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+}
+
 @font-face 
 { 
 font-family: "Sk-Modernist";  
@@ -94,6 +102,7 @@ fieldset {
   top: 5%;
   width: 100%;
   padding:0 2rem;
+  z-index: 5;
 }
 
 .alert-box > .alert > svg {
@@ -129,4 +138,25 @@ fieldset {
 
 .nav-header > span {
   color: #E94057;
+}
+
+.nav-header > .btn-settings {
+  border: 1px solid #E8E6EA;
+  border-radius: 15px;
+  background: #FFFFFF;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.btn-back:disabled {
+  opacity: 50%;
+}
+
+
+.btn-skip.disabled {
+  opacity: 50%;
 }
