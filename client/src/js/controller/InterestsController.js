@@ -68,7 +68,7 @@ class InterestsController {
         this.selectedItems.splice(itemIndex, 1);
       }
     }
-    console.log(this.selectedItems);
+    
   }
 
   selectInterest(target) {

@@ -172,9 +172,13 @@ fieldset {
 
 .colorizeSvgClick svg path{
   fill: #E94057;
+  stroke: #E94057;
 }
 
 .colorizeSvgClick svg rect{
   fill: #E94057;
-  stroke: #E94057;
+}
+
+.main-light-bg {
+  background-color: #FDECEE;
 }

@@ -17,13 +17,54 @@ class DiscoverController {
     this.randomIndex = index;
   }
 
+  set setAuthUser(data) {
+    this.authUser = data;
+  }
+
+  set setCanShowNotifyMatch(bool){
+    this.canShowNotifyMatch = bool;
+  }
+
   init() {
     this.setContainer = document.querySelector("#container");
     let view = new DiscoverView().templateNoUsers();
     this.container.innerHTML = view;
+    this.setCanShowNotifyMatch = true;
+    this.fetchMe();
     this.setRandomUserIndex = 0;
     this.fetchUsers();
     this.bind();
+  }
+
+  async fetchMe() {
+    this.showLoading();
+
+    try {
+      let response = await fetch("http://localhost:3000/users/me", {
+        headers: {
+          token: sessionStorage.getItem("token"),
+        },
+        method: "GET",
+      });
+
+      let data = await response.json();
+      if (data && data?.error) {
+        this.showWarning(data.error);
+        return;
+      }
+
+      if (data && !data?.user?.id) {
+        this.showError();
+        return;
+      }
+
+      this.setAuthUser = data;
+      return;
+    } catch (error) {
+      console.error(error);
+      this.showError();
+    }
+
   }
 
   startTimerFetchUsers() {
@@ -35,6 +76,7 @@ class DiscoverController {
 
   stopTimerFetchUsers() {
     clearInterval(this.timer);
+    this.timer = null;
   }
 
   bind() {
@@ -46,12 +88,13 @@ class DiscoverController {
     if (document.querySelector("#btnLike")) {
       document.querySelector("#btnLike").addEventListener("click", () => {
         this.like();
-        this.verifyMatches();
+       // this.verifyMatches();
       });
     }
     if (document.querySelector("#btnSuperLike")) {
       document.querySelector("#btnSuperLike").addEventListener("click", () => {
         this.like();
+        //this.verifyMatches();
       });
     }
     if (document.querySelector(".box-match")) {
@@ -117,6 +160,18 @@ class DiscoverController {
         this.showWarning(data.error);
         return;
       }
+      this.stopTimerFetchUsers();
+      if (data && data?.match) {
+        const user1 = this.authUser.user;
+        const user2 = this.users[this.randomIndex];
+        const payload = {
+          user1: user1,
+          user2: user2,
+        };
+        new Router().goToItsMatch(payload);
+        return;
+      }
+
       this.fetchUsers();
       return;
     } catch (error) {
@@ -149,51 +204,73 @@ class DiscoverController {
   }
 
   showNotificationMatch() {
-    if (!document.querySelector(".box-match").classList.contains("hasmatch")) {
-      document.querySelector(".box-match").classList.add("hasmatch");
+    if (document.querySelector(".box-match")) {
+      if (
+        !document.querySelector(".box-match").classList.contains("hasmatch")
+      ) {
+        document.querySelector(".box-match").classList.add("hasmatch");
+      }
     }
   }
 
   unShowNotificationMatch() {
-    if (document.querySelector(".box-match").classList.contains("hasmatch")) {
-      document.querySelector(".box-match").classList.remove("hasmatch");
+    if (document.querySelector(".box-match")) {
+      if (document.querySelector(".box-match").classList.contains("hasmatch")) {
+        document.querySelector(".box-match").classList.remove("hasmatch");
+      }
     }
   }
 
   showBorderCurrentMenu() {
-    if (!document.querySelector(".box-discover").classList.contains("active")) {
-      document.querySelector(".box-discover").classList.add("active");
-      document.querySelector(".box-discover").classList.add("colorizeSvgClick");
+    if (document.querySelector(".box-discover")) {
+      if (
+        !document.querySelector(".box-discover").classList.contains("active")
+      ) {
+        document.querySelector(".box-discover").classList.add("active");
+        document
+          .querySelector(".box-discover")
+          .classList.add("colorizeSvgClick");
+      }
     }
   }
 
   unShowBorderCurrentMenu() {
-    if (document.querySelector(".box-discover").classList.contains("active")) {
-      document.querySelector(".box-discover").classList.remove("active");
-      document.querySelector(".box-discover").classList.remove("colorizeSvgClick");
+    if (document.querySelector(".box-discover")) {
+      if (
+        document.querySelector(".box-discover").classList.contains("active")
+      ) {
+        document.querySelector(".box-discover").classList.remove("active");
+        document
+          .querySelector(".box-discover")
+          .classList.remove("colorizeSvgClick");
+      }
     }
   }
 
   showMessage() {
-    let boxAlert = document.querySelector("#alert");
-    boxAlert.innerHTML = "";
-    boxAlert.innerHTML = new ErrorBox("Modulo em contrução").template();
+    if (document.querySelector("#alert")) {
+      let boxAlert = document.querySelector("#alert");
+      boxAlert.innerHTML = "";
+      boxAlert.innerHTML = new ErrorBox("Modulo em contrução").template();
+    }
   }
 
   showWarning(msg) {
-    let boxAlert = document.querySelector("#alert");
-    boxAlert.innerHTML = "";
-    boxAlert.innerHTML = new ErrorBox(
-      msg || "Ops algo deu errado"
-    ).templateWarning();
+    if (document.querySelector("#alert")) {
+      let boxAlert = document.querySelector("#alert");
+      boxAlert.innerHTML = "";
+      boxAlert.innerHTML = new ErrorBox(
+        msg || "Ops algo deu errado"
+      ).templateWarning();
+    }
   }
 
   showError() {
-    let boxAlert = document.querySelector("#alert");
-    boxAlert.innerHTML = "";
-    boxAlert.innerHTML = new ErrorBox(
-      "Ocorreu ao salvar perfil!"
-    ).templateError();
+    if (document.querySelector("#alert")) {
+      let boxAlert = document.querySelector("#alert");
+      boxAlert.innerHTML = "";
+      boxAlert.innerHTML = new ErrorBox("Ocorreu um erro!").templateError();
+    }
   }
 
   showLoading() {
@@ -225,7 +302,6 @@ class DiscoverController {
         this.container.innerHTML = view;
         this.bind();
         this.showBorderCurrentMenu();
-        this.verifyMatches();
         return;
       }
 
@@ -251,16 +327,24 @@ class DiscoverController {
       do {
         newIndex = Math.floor(Math.random() * this.users.length);
       } while (newIndex === this.randomIndex);
-      console.log(newIndex);
       this.randomIndex = newIndex;
     }
 
     const nextRandomUser = this.users[this.randomIndex];
-    const birthday = new Date(nextRandomUser.profile.birthday);
-    const age = this.getAge(birthday);
+    let age = null;
+    if (nextRandomUser?.profile?.birthday) {
+      const birthday = new Date(nextRandomUser.profile.birthday);
+      age = this.getAge(birthday);
+    }
     let view = new DiscoverView(nextRandomUser, age).template();
     this.container.innerHTML = view;
     this.bind();
     this.showBorderCurrentMenu();
+
+    if(this.canShowNotifyMatch){
+      this.verifyMatches();
+      this.canShowNotifyMatch = false;
+    }
+
   }
 }

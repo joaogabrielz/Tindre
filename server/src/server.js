@@ -1,6 +1,6 @@
 const express = require("express");
-const { MongoMemoryServer } = require("mongodb-memory-server");
-// Trade when i back home, to MongoDB Atlas
+//const { MongoMemoryServer } = require("mongodb-memory-server");
+const MONGO_ATLAS_URL = `mongodb+srv://jgtindreadm:jgtindreadm@tindre.ttxypph.mongodb.net/?retryWrites=true&w=majority`;
 const mongoose = require("mongoose");
 const cors = require("cors")
 
@@ -8,13 +8,14 @@ const PORT = 3000;
 const LINK_URL = "localhost";
 
 const userRouter = require("./routes/Users.routes");
-//const matchRouter = require("./routes/Matches.routes");
-const authMiddleWare = require("../src/middlewares/auth.middleware");
 
 const setup = async () => {
     try {
-        const mongoConnect = await MongoMemoryServer.create();
-        await mongoose.connect(`${mongoConnect.getUri()}tinder`);
+       // const mongoConnect = await MongoMemoryServer.create();
+        //await mongoose.connect(`${mongoConnect.getUri()}tinder`);
+        //mongoose.set("strictQuery", true);
+        await mongoose.connect(MONGO_ATLAS_URL);
+        console.log("You successfully connected to MongoDB!");
 
         const app = express();
         
@@ -24,9 +25,6 @@ const setup = async () => {
     
         
         app.use("/users", userRouter);
-        //app.use("/users/:id/match", authMiddleWare, matchRouter);
-        // app.use("/posts", postRouter);
-
 
         app.get("/", (req, res) => {
             res.json({message: "Welcome to tindre app!"});

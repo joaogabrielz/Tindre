@@ -28,6 +28,11 @@ class Router {
       matches: {
         controller: new MatchesController(),
         path: "/matches",
+      },
+      itsMatch: {
+        controller: new ItsMatchController(),
+        path: "/itsMatch",
+        params: null
       }
     };
 
@@ -61,7 +66,15 @@ class Router {
     this.goTo(this.routes.matches);
   }
 
+  goToItsMatch(payload) {
+    this.routes.itsMatch.params = payload;
+    this.goTo(this.routes.itsMatch);
+  }
+
   goTo(route, bool = false) {
+    if(route.params){
+      route.controller.init(route.params); 
+    }
     route.controller.init(bool);   
 
     if (window.location.protocol === "file:") {

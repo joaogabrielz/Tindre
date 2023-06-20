@@ -148,6 +148,14 @@ router.get("", authMiddleWare, async (req, res) => {
       _id: { $ne: loggedInUserId },
     });
 
+    // if (userAuth.matches && userAuth.matches.length > 0) {
+    //   // const userMatchesCount = userAuth.matches ? userAuth.matches.length : 0;
+
+    //   if (userAuth.matches.length === totalUsersCount) {
+    //     return res.json({ users: [] });
+    //   }
+    // }
+
     if (userAuth.deslikes && userAuth.deslikes.length > 0) {
       if (userAuth.deslikes.length === totalUsersCount) {
         return res.json({ users: [] });
@@ -178,19 +186,10 @@ router.get("", authMiddleWare, async (req, res) => {
 
     let users = [];
 
-    const userMatchesCount = userAuth.matches ? userAuth.matches.length : 0;
-
-    if(userMatchesCount === totalUsersCount){
-      return res.json({users: []});
-    }
-
     const query = {
       _id: { $ne: loggedInUserId },
     };
 
-    if (interests && interests.length > 0) {
-      query["profile.interests"] = { $in: interests };
-    }
 
     if (userAuth.deslikes && userAuth.deslikes.length > 0) {
       query["_id"] = {
@@ -202,25 +201,39 @@ router.get("", authMiddleWare, async (req, res) => {
       query["matches"] = { $nin: [loggedInUserId] };
     }
 
-    users = await User.find(query, {
-      profile: 1,
-      email: 1,
-      matches: 1, // erase !
-      deslikes: 1, // erase!
-    });
+    let usersSameInterests = null;
 
-    if (users.length === 0) {
-      users = [];
-      users = await User.find(
-        { _id: { $ne: loggedInUserId }, matches: { $nin: [loggedInUserId] }},
-        {
+    if (interests && interests.length > 0) {
+      query["profile.interests"] = { $in: interests };
+      usersSameInterests = await User.find(query, {
+        profile: 1,
+        email: 1,
+      });
+    }
+
+    if (!usersSameInterests || usersSameInterests.length === 0) {
+      delete query["profile.interests"];
+      users = await User.find(query, {
+        profile: 1,
+        email: 1,
+      });
+
+    } else {
+      //users = usersSameInterests;
+      users = usersSameInterests.filter((user) => {
+        const matchExists = userAuth.matches.includes(user._id.toString());
+        return !matchExists; // retira se ja dei like, mas tem mesmos interesses
+      }); 
+      if (users.length === 0) {
+        delete query["profile.interests"];
+        users = await User.find(query, {
           profile: 1,
           email: 1,
-          matches: 1, // erase !
-          deslikes: 1, // erase!
-        }
-      );
+        }); // se ja dei like, e tem os mesmso interesses n vier ngm, busca todos..
+      }
     }
+    // console.log("last"); // erase
+    // console.log(query); // erase
 
     res.json({ users: users });
   } catch (error) {
@@ -247,7 +260,17 @@ router.post("/:id/matches", authMiddleWare, async (req, res) => {
         userAuth.matches.push(userToLike._id);
         await userAuth.save();
       }
-      return res.json({ message: "Match created successfully" });
+
+      const userToLikeLikedMe = await Match.findOne({
+        userId: userToLike._id,
+        targetUserId: userAuth._id,
+      });
+
+      if (userToLikeLikedMe) {
+        return res.json({ match: true });
+      }
+
+      return res.json({ message: "Like created successfully" });
     }
     return res.status(404).json({ error: "User not found" });
   } catch (error) {
@@ -302,8 +325,6 @@ router.post("/:id/deslikes", authMiddleWare, async (req, res) => {
     console.log(error);
     res.status(500).json({ error: "Ops something went wrong." });
   }
-
-  res.json({ message: "Deslike created successfully" });
 });
 
 module.exports = router;
