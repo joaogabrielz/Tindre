@@ -1,23 +1,22 @@
- .button-gender {
+.button-gender {
   color: #000000;
-  background-color: #FFFFFF;
-  border: 1px solid #E8E6EA;
+  background-color: #ffffff;
+  border: 1px solid #e8e6ea;
   transition: 0.5s;
 }
 
 .button-gender:hover {
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #e94057;
   font-weight: 700;
   transition: 0.5s;
-} 
+}
 
 .button-gender:focus {
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #e94057;
   font-weight: 700;
-} 
-
+}
 
 .group-gender {
   position: relative;

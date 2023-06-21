@@ -34,11 +34,21 @@ class MatchesView {
 
         <div class="row row-cols-2 justify-content-center gap-3">
 
-        ${this.users && this.users.length && this.users.map(
-          (user) => `
+        ${
+          this.users &&
+          this.users.length &&
+          this.users
+            .map(
+              (user) => `
         <div class="box-img-match">
-        <img src="${user.profile?.profile_pic || 'assets/imgs/avatar.png'}" alt="">
-        <span class="h5 overlay-name fw-bold white-color-text">${user.profile?.firstname ?  user.profile.firstname : user.email} ${user.profile?.birthday ? ", ": ""} ${user.profile?.birthday ? this.getAge(user.profile.birthday) : ""}</span>
+        <img src="${
+          user.profile?.profile_pic || "assets/imgs/avatar.png"
+        }" alt="">
+        <span class="h5 overlay-name fw-bold white-color-text">${
+          user.profile?.firstname ? user.profile.firstname : user.email
+        } ${user.profile?.birthday ? ", " : ""} ${
+                user.profile?.birthday ? this.getAge(user.profile.birthday) : ""
+              }</span>
         <div class="overlay-box-img">
           <div class="bg"></div>
          <div class="box-x"> 
@@ -55,7 +65,9 @@ class MatchesView {
         </div>
       </div>
         `
-        ).join("")}
+            )
+            .join("")
+        }
            
         </div>
     

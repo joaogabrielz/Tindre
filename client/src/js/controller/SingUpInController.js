@@ -48,6 +48,12 @@ class SignUpInController {
           this.continue();
         });
 
+      document.addEventListener("keypress", (e) => {
+        if (e.key == 'Enter') {
+          this.continue();
+        }
+      });
+
       document
         .querySelector("#floatingInputEmail")
         .addEventListener("input", () => {
@@ -172,7 +178,7 @@ class SignUpInController {
         if (data && data?.token) {
           sessionStorage.setItem("token", data.token);
 
-          this.verifyUserProfileData();          
+          this.verifyUserProfileData();
           return;
         }
       } catch (error) {
@@ -185,35 +191,34 @@ class SignUpInController {
     }
   }
 
-  async verifyUserProfileData(){
-
+  async verifyUserProfileData() {
     try {
       let response = await fetch("http://localhost:3000/users/me", {
         headers: {
           token: sessionStorage.getItem("token"),
         },
         method: "GET",
-        });
-        let data = await response.json();
-        if (data && data?.user) {
-          if(!data.user.profile?.firstname || !data.user.profile?.lastname){
-            new Router().goToProfile();
-          }
-          else{
-            new Router().goToDiscover();
-          }
+      });
+      let data = await response.json();
+      if (data && data?.user) {
+        if (!data.user.profile?.firstname || !data.user.profile?.lastname) {
+          new Router().goToProfile();
+        } else {
+          new Router().goToDiscover(true);
         }
-    } 
-    catch (error) {
+      }
+    } catch (error) {
       console.error(error);
-    } 
+    }
   }
 
   showError(msg) {
-    if(this.showingMessage){
+    if (this.showingMessage) {
       let boxAlert = document.querySelector("#alert");
       boxAlert.innerHTML = "";
-      boxAlert.innerHTML = new ErrorBox(msg || "Ops Algo deu errado!").templateError();
+      boxAlert.innerHTML = new ErrorBox(
+        msg || "Ops Algo deu errado!"
+      ).templateError();
       this.setShowingMessage = false;
     }
   }

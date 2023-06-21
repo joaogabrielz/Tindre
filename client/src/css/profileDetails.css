@@ -1,8 +1,7 @@
-
 .avatar-prev {
   width: 80px;
   height: 80px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 .avatar-content {
@@ -10,11 +9,8 @@
   max-width: 80px;
 }
 
-.avatar-content > img {
-}
-
 .floating-cam {
-  background-color: #E94057;
+  background-color: #e94057;
   position: absolute;
   top: 55px;
   left: 55px;

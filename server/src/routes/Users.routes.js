@@ -75,9 +75,6 @@ router.post("/sign-in", async (req, res) => {
 });
 
 router.put("/me", authMiddleWare, upload.single("avatar"), async (req, res) => {
-  // ^router.put("/:id" - precisa do id? se ja tem req.userLoggedIn perguntar prof.. so visual..?
-  // ou do me, nao servindo pra nd
-
   try {
     let userAuth = req.userLoggedIn;
 
@@ -174,8 +171,12 @@ router.get("", authMiddleWare, async (req, res) => {
           const currentTime = new Date();
 
           if (currentTime - deslikeDate >= 86400000) {
-            //24hrs //60000 1min // erase !
+            //86400000 24hrs //60000 1min // erase !
             deslikesToDelete.push(deslikeId);
+            await Deslike.deleteOne({
+              userId: loggedInUserId,
+              targetUserId: deslikeId,
+            });
           }
         }
       }
@@ -184,13 +185,13 @@ router.get("", authMiddleWare, async (req, res) => {
       userAuth.deslikes = userAuth.deslikes.filter(
         (deslikeId) => !deslikesToDelete.includes(deslikeId)
       );
+  
       await userAuth.save();
     }
 
     let users = [];
 
     if (userAuth.matches && userAuth.matches.length > 0 && !hasDeslike) {
-      // query["matches"] = { $nin: [loggedInUserId] };
       query["_id"] = {
         $nin: [...userAuth.matches, loggedInUserId],
       };
@@ -210,7 +211,6 @@ router.get("", authMiddleWare, async (req, res) => {
     } else if (userAuthGender == woman) {
       query["profile.gender"] = { $eq: man, $ne: woman, $ne: other };
     }
-    console.log(userAuthGender);
 
     let usersSameInterests = null;
 
@@ -230,16 +230,6 @@ router.get("", authMiddleWare, async (req, res) => {
       });
     } else {
       users = usersSameInterests;
-      // users = usersSameInterests.filter((user) => {
-      //   const matchExists = userAuth.matches.includes(user._id.toString());
-      //   return !matchExists; // retira se ja dei like, mas tem mesmos interesses
-      // });
-      // if (users.length === 0) {
-      //   delete query["profile.interests"];
-      // users = await User.find(query, {
-      //   profile: 1,
-      //   email: 1,
-      // }); // se ja dei like, e tem os mesmso interesses n vier ngm, busca todos..
     }
 
     console.log("last"); // erase
@@ -257,21 +247,30 @@ router.post("/:id/matches", authMiddleWare, async (req, res) => {
     const userAuth = req.userLoggedIn;
     const userToLike = await User.findById(req.params.id);
     if (userToLike) {
-      const matchExists = userAuth.matches.some((match) =>
-        match.equals(userToLike._id)
-      );
+      // const matchExists = userAuth.matches.some((match) =>
+      //   match.equals(userToLike._id) // erase?
+      // );
 
-      if (!matchExists) {
+      const matchId = userToLike._id;
+
+      const matchExistsInArray = userAuth.matches.includes(matchId);
+
+      const matchExistsInTable = await Match.exists({
+        userId: userAuth._id,
+        targetUserId: matchId,
+      });
+
+      if (!matchExistsInArray && !matchExistsInTable) {
         await Match.create({
           userId: userAuth._id,
-          targetUserId: userToLike._id,
+          targetUserId: matchId,
         });
 
-        userAuth.matches.push(userToLike._id);
+        userAuth.matches.push(matchId);
         await userAuth.save();
       }
 
-      const userToLikeLikedMe = await Match.findOne({
+      const userToLikeLikedMe = await Match.exists({
         userId: userToLike._id,
         targetUserId: userAuth._id,
       });
@@ -313,11 +312,19 @@ router.post("/:id/deslikes", authMiddleWare, async (req, res) => {
     const userAuth = req.userLoggedIn;
     const userToDeslike = await User.findById(req.params.id);
     if (userToDeslike) {
-      const deslikeExists = userAuth.deslikes.some(
-        (deslikeId) => deslikeId.toString() === userToDeslike._id.toString()
-      );
+      // const deslikeExists = userAuth.deslikes.some(
+      //   (deslikeId) => deslikeId.toString() === userToDeslike._id.toString()
+      // );
+      const deslikeId = userToDeslike._id;
 
-      if (!deslikeExists) {
+      const deslikeExistsInArray = userAuth.deslikes.includes(deslikeId);
+
+      const deslikeExistsInTable = await Deslike.exists({
+        userId: userAuth._id,
+        targetUserId: deslikeId,
+      });      
+
+      if (!deslikeExistsInArray && !deslikeExistsInTable) {
         await Deslike.create({
           userId: userAuth._id,
           targetUserId: userToDeslike._id,

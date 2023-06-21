@@ -19,16 +19,16 @@ class MatchesController {
     let view = new MatchesView().templateNoContent();
     this.container.innerHTML = view;
 
-    this.fetchUsers();
+    this.fetchMatches();
+    this.startTimerFetchMatches();
     this.bind();
   }
 
   bind() {
-
     if (document.querySelector(".box-discover")) {
       document.querySelector(".box-discover").addEventListener("click", () => {
-       this.unShowBorderCurrentMenu();
-        this.stopTimerFetchUsers();
+        this.unShowBorderCurrentMenu();
+        this.stopTimerFetchMatches();
         new Router().goToDiscover();
       });
     }
@@ -79,23 +79,20 @@ class MatchesController {
   showError() {
     let boxAlert = document.querySelector("#alert");
     boxAlert.innerHTML = "";
-    boxAlert.innerHTML = new ErrorBox(
-      "Ocorreu um Erro"
-    ).templateError();
+    boxAlert.innerHTML = new ErrorBox("Ocorreu um Erro").templateError();
   }
 
-  startTimerFetchUsers() {
+  startTimerFetchMatches() {
     this.timer = setInterval(() => {
-      this.fetchUsers();
-      this.stopTimerFetchUsers();
-    }, 60 * 3000);
+      this.fetchMatches();
+    }, 60 * 2000);
   }
 
-  stopTimerFetchUsers() {
+  stopTimerFetchMatches() {
     clearInterval(this.timer);
   }
 
-  async fetchUsers() {
+  async fetchMatches() {
     this.showLoading();
 
     try {
@@ -105,7 +102,7 @@ class MatchesController {
         },
         method: "GET",
       });
-      this.startTimerFetchUsers();
+      
       let data = await response.json();
       if (data && data?.error) {
         this.showWarning(data.error);

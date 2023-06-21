@@ -21,7 +21,7 @@ class DiscoverController {
     this.authUser = data;
   }
 
-  init() {
+  init(firstTime = false) {
     this.setContainer = document.querySelector("#container");
     let view = new DiscoverView().templateNoUsers();
     this.container.innerHTML = view;
@@ -31,9 +31,11 @@ class DiscoverController {
     this.fetchUsers();
     this.bind();
     this.startTimerFetchUsers();
-    setTimeout(() => {
-      this.verifyMatches();
-    }, 500);
+    if (firstTime) {
+      setTimeout(() => {
+        this.verifyMatches();
+      }, 500); // ver se e esse o erro, redirect to discover
+    }
   }
 
   async fetchMe() {
@@ -69,7 +71,7 @@ class DiscoverController {
   startTimerFetchUsers() {
     this.timer = setInterval(() => {
       this.fetchUsers();
-    }, 60 * 1000); // 1500
+    }, 60 * 1000);
   }
 
   stopTimerFetchUsers() {
@@ -86,13 +88,11 @@ class DiscoverController {
     if (document.querySelector("#btnLike")) {
       document.querySelector("#btnLike").addEventListener("click", () => {
         this.like();
-        // this.verifyMatches();
       });
     }
     if (document.querySelector("#btnSuperLike")) {
       document.querySelector("#btnSuperLike").addEventListener("click", () => {
         this.like();
-        //this.verifyMatches();
       });
     }
     if (document.querySelector(".box-match")) {
@@ -158,7 +158,7 @@ class DiscoverController {
         this.showWarning(data.error);
         return;
       }
-      
+
       if (data && data?.match) {
         const user1 = this.authUser.user;
         const user2 = this.users[this.randomIndex];
@@ -301,6 +301,7 @@ class DiscoverController {
         this.container.innerHTML = view;
         this.bind();
         this.showBorderCurrentMenu();
+        this.verifyMatches();
         return;
       }
 

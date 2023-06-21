@@ -54,7 +54,11 @@ class DiscoverView {
         
         <div class="d-flex box-name-user">
 
-        <span class="h3 fw-bold white-color-text mb-0">${this.user?.profile?.firstname || this.user?.email ||""} ${this.user?.profile?.lastname || ""} ${this.age ? ", " : ""} ${this.age || ""}</span>
+        <span class="h3 fw-bold white-color-text mb-0">${
+          this.user?.profile?.firstname || this.user?.email || ""
+        } ${this.user?.profile?.lastname || ""} ${this.age ? ", " : ""} ${
+      this.age || ""
+    }</span>
         
         </div>
 

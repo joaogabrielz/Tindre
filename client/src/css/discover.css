@@ -1,21 +1,20 @@
 .sideBtnDiscover {
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
   width: 78px;
-height: 78px;
-border: none;
-border-radius: 100%;
+  height: 78px;
+  border: none;
+  border-radius: 100%;
 }
 
 .btnLike {
-background: #E94057;
-box-shadow: 0px 15px 15px rgba(233, 64, 87, 0.2);
-width: 99px;
-height: 99px;
-border: none;
-border-radius: 100%;
+  background: #e94057;
+  box-shadow: 0px 15px 15px rgba(233, 64, 87, 0.2);
+  width: 99px;
+  height: 99px;
+  border: none;
+  border-radius: 100%;
 }
-
 
 .carousel-discover .carousel-item > img {
   width: 80%;
@@ -32,39 +31,36 @@ border-radius: 100%;
   margin: 0 auto;
 }
 
-.box-users-discover .card-user img{
+.box-users-discover .card-user img {
   width: 100%;
 }
 
-
-.box-users-discover .blur-photo{
-  /* content: ""; */
-  /* bottom: 22%; */
-  
+.box-users-discover .blur-photo {
   position: absolute;
   bottom: 0;
   margin: 0 auto;
   width: 80%;
   height: 83px;
   border-radius: 0 0 15px 15px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.699) 0%, rgba(0, 0, 0, 0.123) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.699) 0%,
+    rgba(0, 0, 0, 0.123) 100%
+  );
   filter: blur(2px);
-  /* overflow: hidden; */
 }
 
-.nav-options { 
-  /* position: absolute; */
+.nav-options {
   position: fixed;
   bottom: 0;
   left: 0;
-  /* top: 100%; */
-  background: #F3F3F3;
+  background: #f3f3f3;
   width: 100%;
   height: 58px;
   margin-top: 35px;
 }
 
-.nav-options .box-option{
+.nav-options .box-option {
   flex: 1;
   display: flex;
   align-items: center;
@@ -72,17 +68,16 @@ border-radius: 100%;
   position: relative;
 }
 
-.nav-options .box-option.active::after{
+.nav-options .box-option.active::after {
   content: "";
   position: absolute;
   width: 60px;
   height: 2px;
   top: 0;
-  background-color: #E94057;
+  background-color: #e94057;
 }
 
-
-.nav-options .box-option.hasmatch::after{
+.nav-options .box-option.hasmatch::after {
   content: "";
   position: absolute;
   height: 12px;
@@ -90,8 +85,8 @@ border-radius: 100%;
   top: 27%;
   border-radius: 100%;
   left: 53%;
-  border: 2px solid #F3F3F3;
-  background-color: #E94057;
+  border: 2px solid #f3f3f3;
+  background-color: #e94057;
 }
 
 .box-card-actions-view {
@@ -102,7 +97,7 @@ border-radius: 100%;
   position: relative;
 }
 
-.box-card-actions-view .box-data-user{
+.box-card-actions-view .box-data-user {
   position: absolute;
   bottom: 0;
   left: 0px;
@@ -121,8 +116,7 @@ border-radius: 100%;
   left: 0;
 }
 
-
-.box-users-discover.anyone-tosee .card-user{
+.box-users-discover.anyone-tosee .card-user {
   width: 100%;
   filter: blur(5px);
 }
@@ -131,31 +125,20 @@ border-radius: 100%;
   opacity: 50%;
 }
 
-/* @media (min-width: 375px) {
-   .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .nav-header {
-    margin-top: 0;
-  } 
-} */
-
 @media (min-width: 700px) {
- .box-name-user {
-   margin-left: 100px;
- }
+  .box-name-user {
+    margin-left: 100px;
+  }
 }
 
 @media (min-width: 1000px) {
- .box-name-user {
-   margin-left: 140px;
- }
+  .box-name-user {
+    margin-left: 140px;
+  }
 }
 
 @media screen and (max-width: 375px) {
-.box-users-discover .card-user img{
-  max-height: 430px;
-}
+  .box-users-discover .card-user img {
+    max-height: 430px;
+  }
 }

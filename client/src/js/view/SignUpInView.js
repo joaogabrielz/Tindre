@@ -1,5 +1,10 @@
 class SignUpInView {
-  constructor(signUpIn, activeBtn, signInUpModel = null, componentLoading = null) {
+  constructor(
+    signUpIn,
+    activeBtn,
+    signInUpModel = null,
+    componentLoading = null
+  ) {
     this.signUpIn = signUpIn;
     this.activeBtn = activeBtn;
     this.signInUpModel = signInUpModel;
@@ -57,7 +62,9 @@ class SignUpInView {
       </div>
     </div>
 
-    ${!this.componentLoading ? `
+    ${
+      !this.componentLoading
+        ? `
     <section id="ctaContinueSign">
     ${
       !this?.activeBtn
@@ -68,16 +75,18 @@ class SignUpInView {
           >
             Continue with email
           </button>`
-        : 
-          `<button
+        : `<button
             id="btnContinueSign"
             class="btn main-color-bg white-color-text fw-bold button-create"
             type="button"
           >
             Continue
-          </button`}
+          </button`
+    }
     </section>
-    ` : this.componentLoading}
+    `
+        : this.componentLoading
+    }
    
 
   </setion>

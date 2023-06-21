@@ -24,6 +24,7 @@ class Router {
       discover: {
         controller: new DiscoverController(),
         path: "/discover",
+        params: null
       },
       matches: {
         controller: new MatchesController(),
@@ -58,7 +59,10 @@ class Router {
     this.goTo(this.routes.interests);
   }
 
-  goToDiscover() {
+  goToDiscover(firstTime = false) {
+    if(firstTime){
+      this.routes.discover.params = firstTime;
+    }
     this.goTo(this.routes.discover);
   }
 
@@ -78,20 +82,8 @@ class Router {
     route.controller.init(bool);   
 
     if (window.location.protocol === "file:") {
-      //this.runningLocal = true;
     } else {
-      //this.runningLocal = false;
-      //this.lastRoute = route;
       history.pushState({}, "",  route.path);
-      //this.bind()
     }
   }
-
-  // bind(){
-  //   --disable-ipc-flooding-protection
-  //   window.addEventListener("popstate", (event) => {
-  //     history.back();
-  //     this.goTo(this.lastRoute)
-  //   });
-  // }
 }

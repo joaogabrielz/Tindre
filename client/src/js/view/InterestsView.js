@@ -132,13 +132,14 @@ class interestsView {
           .map((item, i) => {
             if (this.interestsSelecteds) {
               this.interestsSelecteds.map((selected, y) => {
-                if(selected == item.name){
+                if (selected == item.name) {
                   this.items[i].selected = true;
-                  item.icon = item.icon.replace('class="', `class="fillSvgMainColor `);
-                  
+                  item.icon = item.icon.replace(
+                    'class="',
+                    `class="fillSvgMainColor `
+                  );
                 }
-              })
-             
+              });
             }
             return item.selected
               ? `<div data-item="${

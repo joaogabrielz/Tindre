@@ -2,78 +2,76 @@
   height: 100%;
 }
 
-.its-match-imgs{
+.its-match-imgs {
   position: relative;
-  /* width: 100%; */
   min-height: 300px;
 }
 
 .box-its-match .person1 {
   position: absolute;
   left: 8%;
-right: 0%;
-top: 26%;
-bottom: -11.58%;
-border-radius: 15px;
-transform: rotate(-10deg);
-height: 240px;
-width: 160px;
-background-position: center;
-background-size: cover;
-z-index: 3;
-filter: drop-shadow(0px 25px 25px rgba(0, 0, 0, 0.15))
+  right: 0%;
+  top: 26%;
+  bottom: -11.58%;
+  border-radius: 15px;
+  transform: rotate(-10deg);
+  height: 240px;
+  width: 160px;
+  background-position: center;
+  background-size: cover;
+  z-index: 3;
+  filter: drop-shadow(0px 25px 25px rgba(0, 0, 0, 0.15));
 }
 
-.box-its-match .person1 .icon1{
-position: absolute;
-width: 60px;
-height: 60px;
-left: -10px;
-bottom: -20px;
-background: #FFFFFF;
-box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
-transform: rotate(5deg);
-border-radius: 100%;
-display: flex;
-justify-content: center;
-align-items: center;
+.box-its-match .person1 .icon1 {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  left: -10px;
+  bottom: -20px;
+  background: #ffffff;
+  box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
+  transform: rotate(5deg);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .box-its-match .person2 {
-position: absolute;
-left: 42.05%;
-right: -26.05%;
-top: 0%;
-bottom: 0%;
-border-radius: 15px;
-transform: rotate(10deg);
-height: 240px;
-width: 160px;
-background-position: center;
-background-size: cover;
-filter: drop-shadow(0px 25px 25px rgba(0, 0, 0, 0.15))
+  position: absolute;
+  left: 42.05%;
+  right: -26.05%;
+  top: 0%;
+  bottom: 0%;
+  border-radius: 15px;
+  transform: rotate(10deg);
+  height: 240px;
+  width: 160px;
+  background-position: center;
+  background-size: cover;
+  filter: drop-shadow(0px 25px 25px rgba(0, 0, 0, 0.15));
 }
 
-.box-its-match .person2 .icon2{
+.box-its-match .person2 .icon2 {
   position: absolute;
   width: 60px;
   height: 60px;
   top: -20px;
   left: -10px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.07);
   transform: rotate(-10deg);
   border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  }
+}
 
-.box-its-match .title{
+.box-its-match .title {
   font-size: 34px;
 }
 
-.box-its-match .subtitle{
+.box-its-match .subtitle {
   font-size: 14px;
 }

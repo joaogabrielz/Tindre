@@ -31,7 +31,9 @@ class ItsMatchView {
 
     <section class="its-match-texts d-flex flex-column align-items-center w-100 mb-4 mt-4">
       <h1 class="fw-bold main-color-text title">It’s a match, ${
-        this.dataUsers?.user1.profile.firstname
+        this.dataUsers?.user1.profile.firstname ||
+        this.dataUsers?.user1.email ||
+        ""
       }!</h1>
       <span class="subtitle">Start a conversation now with each other</span>
     </section>

@@ -38,7 +38,7 @@ class InterestsController {
         });
     }
     document.querySelector("#skipInterest").addEventListener("click", () => {
-      new Router().goToDiscover();
+      new Router().goToDiscover(true);
     });
   }
 
@@ -68,7 +68,6 @@ class InterestsController {
         this.selectedItems.splice(itemIndex, 1);
       }
     }
-    
   }
 
   selectInterest(target) {
@@ -127,7 +126,7 @@ class InterestsController {
           return;
         }
 
-        new Router().goToDiscover();
+        new Router().goToDiscover(true);
         return;
       } catch (error) {
         console.error(error);

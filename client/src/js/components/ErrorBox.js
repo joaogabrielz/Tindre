@@ -46,5 +46,4 @@ class ErrorBox {
   </div>
     `;
   }
-
 }

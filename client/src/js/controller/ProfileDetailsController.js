@@ -96,7 +96,10 @@ class ProfileDetailsController {
     }
     let profileModel = new Profile(firstname, lastname, birthday, avatar);
 
-    const view = new ProfileDetailsView(profileModel, componentLoading).template();
+    const view = new ProfileDetailsView(
+      profileModel,
+      componentLoading
+    ).template();
 
     this.container.innerHTML = view;
     this.bind();
@@ -110,23 +113,23 @@ class ProfileDetailsController {
   validateDate(date) {
     const regex = /^(?:\d{4})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])$/;
     const inputDate = new Date(date);
-  
+
     if (!regex.test(date)) {
       return false;
     }
-  
+
     if (isNaN(inputDate.getTime())) {
-      return false; 
+      return false;
     }
-  
+
     const currentDate = new Date();
     const minYear = currentDate.getFullYear() - 80;
     const minDate = new Date(minYear, 0, 1);
-  
+
     if (inputDate > currentDate || inputDate < minDate) {
       return false;
     }
-  
+
     return true;
   }
 
@@ -213,7 +216,7 @@ class ProfileDetailsController {
           return;
         }
 
-         new Router().goToIam();
+        new Router().goToIam();
         return;
       } catch (error) {
         console.error(error);
