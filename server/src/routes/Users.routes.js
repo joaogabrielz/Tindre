@@ -142,28 +142,31 @@ router.get("", authMiddleWare, async (req, res) => {
     const userAuth = req.userLoggedIn;
     const loggedInUserId = req.userLoggedIn._id;
     const interests = req.userLoggedIn.profile.interests;
+    let hasDeslike = false;
 
     const deslikesToDelete = [];
     const totalUsersCount = await User.countDocuments({
       _id: { $ne: loggedInUserId },
     });
 
-    // if (userAuth.matches && userAuth.matches.length > 0) {
-    //   // const userMatchesCount = userAuth.matches ? userAuth.matches.length : 0;
-
-    //   if (userAuth.matches.length === totalUsersCount) {
-    //     return res.json({ users: [] });
-    //   }
-    // }
+    const query = {
+      _id: { $ne: loggedInUserId },
+    };
 
     if (userAuth.deslikes && userAuth.deslikes.length > 0) {
       if (userAuth.deslikes.length === totalUsersCount) {
         return res.json({ users: [] });
       }
 
+      query["_id"] = {
+        $nin: [...userAuth.deslikes, loggedInUserId],
+      };
+
+      hasDeslike = true;
+
       for (const deslikeId of userAuth.deslikes) {
         const deslike = await Deslike.findOne({
-          userId: userAuth._id,
+          userId: loggedInUserId,
           targetUserId: deslikeId,
         });
         if (deslike) {
@@ -186,20 +189,28 @@ router.get("", authMiddleWare, async (req, res) => {
 
     let users = [];
 
-    const query = {
-      _id: { $ne: loggedInUserId },
-    };
-
-
-    if (userAuth.deslikes && userAuth.deslikes.length > 0) {
+    if (userAuth.matches && userAuth.matches.length > 0 && !hasDeslike) {
+      // query["matches"] = { $nin: [loggedInUserId] };
       query["_id"] = {
-        $nin: [...userAuth.deslikes, loggedInUserId],
+        $nin: [...userAuth.matches, loggedInUserId],
+      };
+    } else {
+      query["_id"] = {
+        $nin: [...userAuth.matches, ...userAuth.deslikes, loggedInUserId],
       };
     }
 
-    if (userAuth.matches && userAuth.matches.length > 0) {
-      query["matches"] = { $nin: [loggedInUserId] };
+    const userAuthGender = req.userLoggedIn.profile?.gender;
+    const man = "man";
+    const woman = "woman";
+    const other = "other";
+
+    if (userAuthGender == man) {
+      query["profile.gender"] = { $eq: woman, $ne: man, $ne: other };
+    } else if (userAuthGender == woman) {
+      query["profile.gender"] = { $eq: man, $ne: woman, $ne: other };
     }
+    console.log(userAuthGender);
 
     let usersSameInterests = null;
 
@@ -217,23 +228,22 @@ router.get("", authMiddleWare, async (req, res) => {
         profile: 1,
         email: 1,
       });
-
     } else {
-      //users = usersSameInterests;
-      users = usersSameInterests.filter((user) => {
-        const matchExists = userAuth.matches.includes(user._id.toString());
-        return !matchExists; // retira se ja dei like, mas tem mesmos interesses
-      }); 
-      if (users.length === 0) {
-        delete query["profile.interests"];
-        users = await User.find(query, {
-          profile: 1,
-          email: 1,
-        }); // se ja dei like, e tem os mesmso interesses n vier ngm, busca todos..
-      }
+      users = usersSameInterests;
+      // users = usersSameInterests.filter((user) => {
+      //   const matchExists = userAuth.matches.includes(user._id.toString());
+      //   return !matchExists; // retira se ja dei like, mas tem mesmos interesses
+      // });
+      // if (users.length === 0) {
+      //   delete query["profile.interests"];
+      // users = await User.find(query, {
+      //   profile: 1,
+      //   email: 1,
+      // }); // se ja dei like, e tem os mesmso interesses n vier ngm, busca todos..
     }
-    // console.log("last"); // erase
-    // console.log(query); // erase
+
+    console.log("last"); // erase
+    console.log(query); // erase
 
     res.json({ users: users });
   } catch (error) {

@@ -9,6 +9,8 @@ class ItsMatchController {
   }
 
   init(dataUsers){
+    console.log("ist")
+    console.log(dataUsers)
     this.setContainer = document.querySelector("#container");
     let view = new ItsMatchView(dataUsers).template();
     this.container.innerHTML = view;

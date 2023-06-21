@@ -21,10 +21,6 @@ class DiscoverController {
     this.authUser = data;
   }
 
-  set setCanShowNotifyMatch(bool){
-    this.canShowNotifyMatch = bool;
-  }
-
   init() {
     this.setContainer = document.querySelector("#container");
     let view = new DiscoverView().templateNoUsers();
@@ -34,6 +30,10 @@ class DiscoverController {
     this.setRandomUserIndex = 0;
     this.fetchUsers();
     this.bind();
+    this.startTimerFetchUsers();
+    setTimeout(() => {
+      this.verifyMatches();
+    }, 500);
   }
 
   async fetchMe() {
@@ -64,13 +64,11 @@ class DiscoverController {
       console.error(error);
       this.showError();
     }
-
   }
 
   startTimerFetchUsers() {
     this.timer = setInterval(() => {
       this.fetchUsers();
-      this.stopTimerFetchUsers();
     }, 60 * 1000); // 1500
   }
 
@@ -88,7 +86,7 @@ class DiscoverController {
     if (document.querySelector("#btnLike")) {
       document.querySelector("#btnLike").addEventListener("click", () => {
         this.like();
-       // this.verifyMatches();
+        // this.verifyMatches();
       });
     }
     if (document.querySelector("#btnSuperLike")) {
@@ -160,7 +158,7 @@ class DiscoverController {
         this.showWarning(data.error);
         return;
       }
-      this.stopTimerFetchUsers();
+      
       if (data && data?.match) {
         const user1 = this.authUser.user;
         const user2 = this.users[this.randomIndex];
@@ -168,6 +166,7 @@ class DiscoverController {
           user1: user1,
           user2: user2,
         };
+        this.stopTimerFetchUsers();
         new Router().goToItsMatch(payload);
         return;
       }
@@ -290,7 +289,7 @@ class DiscoverController {
         },
         method: "GET",
       });
-      this.startTimerFetchUsers();
+
       let data = await response.json();
       if (data && data?.error) {
         this.showWarning(data.error);
@@ -322,15 +321,18 @@ class DiscoverController {
   }
 
   renderUser() {
-    if (this.users.length > 1) {
+    let nextRandomUser;
+    if (this.users.length > 2) {
       let newIndex;
       do {
         newIndex = Math.floor(Math.random() * this.users.length);
       } while (newIndex === this.randomIndex);
       this.randomIndex = newIndex;
+      nextRandomUser = this.users[this.randomIndex];
+    } else {
+      nextRandomUser = this.users[0];
+      this.randomIndex = 0;
     }
-
-    const nextRandomUser = this.users[this.randomIndex];
     let age = null;
     if (nextRandomUser?.profile?.birthday) {
       const birthday = new Date(nextRandomUser.profile.birthday);
@@ -340,11 +342,5 @@ class DiscoverController {
     this.container.innerHTML = view;
     this.bind();
     this.showBorderCurrentMenu();
-
-    if(this.canShowNotifyMatch){
-      this.verifyMatches();
-      this.canShowNotifyMatch = false;
-    }
-
   }
 }
