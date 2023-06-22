@@ -24,7 +24,7 @@ class Router {
       discover: {
         controller: new DiscoverController(),
         path: "/discover",
-        params: null
+        params: null,
       },
       matches: {
         controller: new MatchesController(),
@@ -33,10 +33,9 @@ class Router {
       itsMatch: {
         controller: new ItsMatchController(),
         path: "/itsMatch",
-        params: null
-      }
+        params: null,
+      },
     };
-
   }
 
   goToIntroduction() {
@@ -60,7 +59,7 @@ class Router {
   }
 
   goToDiscover(firstTime = false) {
-    if(firstTime){
+    if (firstTime) {
       this.routes.discover.params = firstTime;
     }
     this.goTo(this.routes.discover);
@@ -76,14 +75,14 @@ class Router {
   }
 
   goTo(route, bool = false) {
-    if(route.params){
-      route.controller.init(route.params); 
+    if (route.params) {
+      route.controller.init(route.params);
     }
-    route.controller.init(bool);   
+    route.controller.init(bool);
 
     if (window.location.protocol === "file:") {
     } else {
-      history.pushState({}, "",  route.path);
+      history.pushState({}, "", route.path);
     }
   }
 }

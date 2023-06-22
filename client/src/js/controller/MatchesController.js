@@ -9,10 +9,6 @@ class MatchesController {
     this.users = users;
   }
 
-  set setTimer(timer) {
-    this.timer = timer;
-  }
-
   init() {
     this.setContainer = document.querySelector("#container");
     this.container.innerHTML = "";
@@ -20,7 +16,6 @@ class MatchesController {
     this.container.innerHTML = view;
 
     this.fetchMatches();
-    this.startTimerFetchMatches();
     this.bind();
   }
 
@@ -28,7 +23,6 @@ class MatchesController {
     if (document.querySelector(".box-discover")) {
       document.querySelector(".box-discover").addEventListener("click", () => {
         this.unShowBorderCurrentMenu();
-        this.stopTimerFetchMatches();
         new Router().goToDiscover();
       });
     }
@@ -82,16 +76,6 @@ class MatchesController {
     boxAlert.innerHTML = new ErrorBox("Ocorreu um Erro").templateError();
   }
 
-  startTimerFetchMatches() {
-    this.timer = setInterval(() => {
-      this.fetchMatches();
-    }, 60 * 2000);
-  }
-
-  stopTimerFetchMatches() {
-    clearInterval(this.timer);
-  }
-
   async fetchMatches() {
     this.showLoading();
 
@@ -102,7 +86,7 @@ class MatchesController {
         },
         method: "GET",
       });
-      
+
       let data = await response.json();
       if (data && data?.error) {
         this.showWarning(data.error);

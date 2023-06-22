@@ -9,10 +9,6 @@ class DiscoverController {
     this.users = users;
   }
 
-  set setTimer(timer) {
-    this.timer = timer;
-  }
-
   set setRandomUserIndex(index) {
     this.randomIndex = index;
   }
@@ -30,11 +26,8 @@ class DiscoverController {
     this.setRandomUserIndex = 0;
     this.fetchUsers();
     this.bind();
-    this.startTimerFetchUsers();
     if (firstTime) {
-      setTimeout(() => {
-        this.verifyMatches();
-      }, 500); // ver se e esse o erro, redirect to discover
+      this.verifyMatches();
     }
   }
 
@@ -42,7 +35,7 @@ class DiscoverController {
     this.showLoading();
 
     try {
-      let response = await fetch("http://localhost:3000/users/me", {
+      let response = await fetch("http://localhost:3000/users?user=me", {
         headers: {
           token: sessionStorage.getItem("token"),
         },
@@ -68,17 +61,6 @@ class DiscoverController {
     }
   }
 
-  startTimerFetchUsers() {
-    this.timer = setInterval(() => {
-      this.fetchUsers();
-    }, 60 * 1000);
-  }
-
-  stopTimerFetchUsers() {
-    clearInterval(this.timer);
-    this.timer = null;
-  }
-
   bind() {
     if (document.querySelector("#btnDeslike")) {
       document.querySelector("#btnDeslike").addEventListener("click", () => {
@@ -99,7 +81,6 @@ class DiscoverController {
       document.querySelector(".box-match").addEventListener("click", () => {
         this.unShowNotificationMatch();
         this.unShowBorderCurrentMenu();
-        this.stopTimerFetchUsers();
         new Router().goToMatches();
       });
     }
@@ -166,7 +147,7 @@ class DiscoverController {
           user1: user1,
           user2: user2,
         };
-        this.stopTimerFetchUsers();
+
         new Router().goToItsMatch(payload);
         return;
       }
@@ -301,7 +282,6 @@ class DiscoverController {
         this.container.innerHTML = view;
         this.bind();
         this.showBorderCurrentMenu();
-        this.verifyMatches();
         return;
       }
 

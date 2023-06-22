@@ -9,7 +9,7 @@ class ItsMatchView {
 
     <section class="its-match-imgs mb-4r">
       <div class="person1" style="background-image: url(${
-        this.dataUsers?.user1?.profile.profile_pic || "assets/imgs/girl1.png"
+        this.dataUsers?.user1.profile.profile_pic || "assets/imgs/avatar.png"
       })">
         <div class="icon1">
           <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,7 +19,7 @@ class ItsMatchView {
       </div>
       
       <div class="person2" style="background-image: url(${
-        this.dataUsers?.user2?.profile.profile_pic || "assets/imgs/girl2.png"
+        this.dataUsers?.user2.profile.profile_pic || "assets/imgs/avatar.png"
       })">
         <div class="icon2">
           <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,11 +30,16 @@ class ItsMatchView {
     </section>
 
     <section class="its-match-texts d-flex flex-column align-items-center w-100 mb-4 mt-4">
-      <h1 class="fw-bold main-color-text title">It’s a match, ${
-        this.dataUsers?.user1.profile.firstname ||
-        this.dataUsers?.user1.email ||
-        ""
-      }!</h1>
+      <h1 class="fw-bold main-color-text ${
+        this.dataUsers?.user1.profile.firstname.length > 6 ||
+        this.dataUsers?.user1.email.length > 6
+          ? "text-center"
+          : "title text-center"
+      }">It’s a match, ${
+      this.dataUsers?.user1.profile.firstname ||
+      this.dataUsers?.user1.email ||
+      ""
+    }!</h1>
       <span class="subtitle">Start a conversation now with each other</span>
     </section>
 

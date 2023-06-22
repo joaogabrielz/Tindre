@@ -166,7 +166,7 @@ class DiscoverView {
       <div class="d-flex flex-column align-items-center box-title">
         <h2 class="fw-bold m-0">Discover</h2>
       </div>
-      <button class="btn-settings">
+      <button class="btn-settings" disabled>
         <svg
           width="22"
           height="20"

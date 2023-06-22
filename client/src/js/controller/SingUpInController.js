@@ -49,7 +49,7 @@ class SignUpInController {
         });
 
       document.addEventListener("keypress", (e) => {
-        if (e.key == 'Enter') {
+        if (e.key == "Enter") {
           this.continue();
         }
       });
@@ -166,19 +166,18 @@ class SignUpInController {
         let response = await fetch("http://localhost:3000/users/sign-in", {
           body: JSON.stringify(body),
           headers: {
-            "content-type": "application/json",
+            "Content-type": "application/json",
           },
           method: "POST",
         });
         let data = await response.json();
-        if (data && data?.error) {
-          this.signUp(body);
-          return;
-        }
-        if (data && data?.token) {
+        if (data && data?.token && response.ok) {
           sessionStorage.setItem("token", data.token);
 
           this.verifyUserProfileData();
+          return;
+        } else if (data && data?.error && response.status === 401) {
+          this.signUp(body);
           return;
         }
       } catch (error) {
@@ -193,7 +192,7 @@ class SignUpInController {
 
   async verifyUserProfileData() {
     try {
-      let response = await fetch("http://localhost:3000/users/me", {
+      let response = await fetch("http://localhost:3000/users?user=me", {
         headers: {
           token: sessionStorage.getItem("token"),
         },
@@ -201,7 +200,12 @@ class SignUpInController {
       });
       let data = await response.json();
       if (data && data?.user) {
-        if (!data.user.profile?.firstname || !data.user.profile?.lastname) {
+        if (
+          !data.user.profile?.firstname ||
+          !data.user.profile?.lastname ||
+          !data.user.profile?.birthday ||
+          !data.user.profile?.gender
+        ) {
           new Router().goToProfile();
         } else {
           new Router().goToDiscover(true);
@@ -229,12 +233,12 @@ class SignUpInController {
       let response = await fetch("http://localhost:3000/users/sign-up", {
         body: JSON.stringify(body),
         headers: {
-          "content-type": "application/json",
+          "Content-type": "application/json",
         },
         method: "POST",
       });
       let data = await response.json();
-      if (data && data?.token) {
+      if (data && data?.token && response.ok) {
         sessionStorage.setItem("token", data.token);
         new Router().goToProfile();
         return;

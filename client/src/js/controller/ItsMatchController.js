@@ -22,7 +22,7 @@ class ItsMatchController {
       document
         .querySelector("#btnKeepSwiping")
         .addEventListener("click", () => {
-          new Router().goToDiscover();
+          new Router().goToDiscover(true);
         });
     }
   }
