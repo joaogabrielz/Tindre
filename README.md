@@ -13,13 +13,15 @@ Caso o usuário coloque "Não gostei", o usuário deve ficar 1 dias sem aparecer
 
 ### Config
 
-> **server/src: create .env, fill in your data**
-    PORT=
-    HOSTNAME='localhost'
-    DB_PROTOCOL=mongodb+srv
-    DB_USER=
-    DB_PASSWORD=
-    DB_HOST=
-    DB_NAME=
-    DB_OPTIONS=retryWrites=true&w=majority
-    SECRET=
+> **server/src: create .env, fill in your data:**
+- PORT=
+- HOSTNAME='localhost'
+
+- DB_PROTOCOL=mongodb+srv
+- DB_USER=
+- DB_PASSWORD=
+- DB_HOST=
+- DB_NAME=
+- DB_OPTIONS=retryWrites=true&w=majority
+
+- SECRET=
