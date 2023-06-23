@@ -11,3 +11,15 @@ O usuário deve ser capaz de criar uma conta usando o seu email e senha. Caso o 
 Nesta versão o usuário cria o seu perfil somente uma vez, e não pode editar ele.
 Caso o usuário coloque "Não gostei", o usuário deve ficar 1 dias sem aparecer para o usuário que não gostou.
 
+### Config
+
+> **server/src: create .env, fill in your data**
+    PORT=
+    HOSTNAME='localhost'
+    DB_PROTOCOL=mongodb+srv
+    DB_USER=
+    DB_PASSWORD=
+    DB_HOST=
+    DB_NAME=
+    DB_OPTIONS=retryWrites=true&w=majority
+    SECRET=
