@@ -9,6 +9,7 @@ const UsersService = require("../services/Users.service");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+const path = require("path");
 
 router.put(
   "/:id",
@@ -35,8 +36,10 @@ router.put(
           const formatedDate = new Date(birthday).toISOString();
           userAuth.profile.birthday = formatedDate;
         }
-        if (req?.file && req?.file?.path) {
-          userAuth.profile.profile_pic = `http://localhost:3000/${req.file.path}`;
+        if (req.file && req.file.path) {
+          userAuth.profile.profile_pic = `${req.protocol}://${req.get(
+            "host"
+          )}/${path.basename(req.file.path)}`;
         }
         if (gender) {
           userAuth.profile.gender = gender;
