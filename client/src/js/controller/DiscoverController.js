@@ -148,12 +148,10 @@ class DiscoverController {
           user2: user2,
         };
 
-        new Router().goToItsMatch(payload);
-        return;
+        return new Router().goToItsMatch(payload);
       }
 
-      this.fetchUsers();
-      return;
+      return this.fetchUsers();
     } catch (error) {
       console.error(error);
       this.showError();

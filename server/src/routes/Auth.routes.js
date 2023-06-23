@@ -17,13 +17,13 @@ router.post("/sign-up", async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Missing Credencials!" });
+      return res.status(400).json({ error: "Missing Credencials!" });
     }
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(409).json({ message: "Email already exists!" });
+      return res.status(409).json({ error: "Email already exists!" });
     }
 
     const user = await User.create({
@@ -59,7 +59,7 @@ router.post("/sign-in", async (req, res) => {
     let { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ message: "Missing Credencials!" });
+      return res.status(400).json({ error: "Missing Credencials!" });
     }
 
     password = Base64.stringify(sha256(password));
@@ -67,7 +67,7 @@ router.post("/sign-in", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).json({ error: "Invalid Credentials" });
+      return res.status(401).json({ error: "User Not Found" });
     }
 
     if (user.password !== password) {

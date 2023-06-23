@@ -242,12 +242,14 @@ class SignUpInController {
         sessionStorage.setItem("token", data.token);
         new Router().goToProfile();
         return;
+      } else if (data && data?.error && response.status === 409) {
+        this.setShowingMessage = true;
       }
     } catch (error) {
       console.error(error);
       this.setShowingMessage = true;
     }
     this.showLoading(body.email, body.password);
-    this.showError("Ops erro ao cadastrar!");
+    this.showError("Email ou Senha inválidos!");
   }
 }

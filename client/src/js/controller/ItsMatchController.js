@@ -6,10 +6,12 @@ class ItsMatchController {
   }
 
   init(dataUsers) {
-    this.setContainer = document.querySelector("#container");
-    let view = new ItsMatchView(dataUsers).template();
-    this.container.innerHTML = view;
-    this.bind();
+    if (dataUsers) {
+      this.setContainer = document.querySelector("#container");
+      const view = new ItsMatchView(dataUsers).template();
+      this.container.innerHTML = view;
+      this.bind();
+    }
   }
 
   bind() {

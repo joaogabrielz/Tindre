@@ -79,7 +79,6 @@ router.get("", authMiddleWare, async (req, res) => {
     }
   } else {
     try {
-      console.log(await UsersService.getUsers(req.currentUser));
       let response = await UsersService.getUsers(req.currentUser);
       return res.json(response);
     } catch (error) {
