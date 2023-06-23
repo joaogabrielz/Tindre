@@ -39,7 +39,7 @@ router.put(
         if (req.file && req.file.path) {
           userAuth.profile.profile_pic = `${req.protocol}://${req.get(
             "host"
-          )}/${path.basename(req.file.path)}`;
+          )}/uploads/${path.basename(req.file.path)}`;
         }
         if (gender) {
           userAuth.profile.gender = gender;
