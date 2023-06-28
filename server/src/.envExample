@@ -1,0 +1,11 @@
+PORT=3000
+HOSTNAME='localhost'
+
+DB_PROTOCOL=mongodb+srv
+DB_USER=
+DB_PASSWORD=
+DB_HOST=
+DB_NAME=
+DB_OPTIONS=retryWrites=true&w=majority
+
+SECRET=
